@@ -1,6 +1,7 @@
 page 50100 "Course List"
 {
     //Propiedades globales
+    CaptionML = ENU = 'Courses', ESP = 'Cursos';
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
