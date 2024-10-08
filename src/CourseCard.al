@@ -3,7 +3,7 @@ page 50101 "Course Card"
     CaptionML = ENU = 'Course Card', ESP = 'Ficha curso';
     PageType = Card;
     ApplicationArea = All;
-    UsageCategory = Administration;
+    UsageCategory = None; //Asi no se indexa en el buscador
     SourceTable = Course; //Origen de los datos 
 
     layout
