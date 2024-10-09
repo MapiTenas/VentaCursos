@@ -24,7 +24,12 @@ page 50100 "Course List"
 
             }
         }
-
+        area(FactBoxes)
+        {
+            part(CourseEditions; "Course Editions")
+            {
+                SubPageLink = "Course No." = field("No."); //Cojo un campo de la tabla de ediciones y lo relaciono con la tabla de cursos.
+            }
+        }
     }
-
 }
