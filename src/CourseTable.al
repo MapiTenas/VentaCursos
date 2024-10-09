@@ -1,6 +1,5 @@
 table 50100 Course
 {
-
     CaptionML = ENU = 'Course', ESP = 'Curso';
 
     fields
@@ -8,6 +7,7 @@ table 50100 Course
         field(1; "No."; Code[20])
         {
             CaptionML = ENU = 'No.', ESP = 'Nº';
+
             trigger OnValidate()
             var
                 IsHandled: Boolean;
@@ -19,12 +19,10 @@ table 50100 Course
 
                 if "No." <> xRec."No." then begin
                     ResSetup.Get();
-                    NoSeries.TestManual(ResSetup."Resource Nos.");
+                    NoSeries.TestManual(ResSetup."Course Nos.");
                     "No. Series" := '';
                 end;
             end;
-
-
         }
         field(2; Name; Text[100])
         {
@@ -36,27 +34,26 @@ table 50100 Course
         }
         field(4; "Duration (hours)"; Integer)
         {
-            CaptionML = ENU = 'Duration (hours)', ESP = 'Duracion (horas)';
+            CaptionML = ENU = 'Duration (hours)', ESP = 'Duración (horas)';
         }
         field(5; Price; Decimal)
         {
-            CaptionML = ENU = 'Price', ESP = 'Price';
+            CaptionML = ENU = 'Price', ESP = 'Precio';
         }
         field(6; "Language Code"; Code[10])
         {
-            CaptionML = ENU = 'Language', ESP = 'Lenguaje';
-            TableRelation = Language; //Asi relacionamos la tabla de idiomas 
+            CaptionML = ENU = 'Language Code', ESP = 'Cód. idioma';
+            TableRelation = Language; //Asi relacionamos la tabla de idiomas
         }
         field(7; "Type (Option)"; Option)
         {
-            CaptionML = ENU = 'Type (Option)', ESP = 'Tipo (Opcion)';
+            CaptionML = ENU = 'Type (Option)', ESP = 'Tipo (Option)';
             OptionMembers = " ","Instructor-Lead","Video Tutorial";
-            OptionCaptionML = ENU = ' ,Instructor-Lead,Video tutorial', ESP = ' ,Con profesor,Video tutorial';
+            OptionCaptionML = ENU = ' ,Instructor-Lead,Video Tutorial', ESP = ' ,Con profesor,Vídeo Tutorial';
         }
         field(8; Type; Enum "Course Type")
         {
-            CaptionML = ENU = 'Course Type', ESP = 'Tipo';
-
+            CaptionML = ENU = 'Type', ESP = 'Tipo';
         }
 
         field(56; "No. Series"; Code[20])
@@ -65,12 +62,11 @@ table 50100 Course
             Editable = false;
             TableRelation = "No. Series";
         }
-
     }
 
     trigger OnInsert()
     var
-        Resource: Record Resource;
+        Course: Record Course;
 #if not CLEAN24        
         NoSeriesMgt: Codeunit NoSeriesManagement;
 #endif
@@ -83,21 +79,21 @@ table 50100 Course
 
         if "No." = '' then begin
             ResSetup.Get();
-            ResSetup.TestField("Resource Nos.");
+            ResSetup.TestField("Course Nos.");
 #if not CLEAN24
-            NoSeriesMgt.RaiseObsoleteOnBeforeInitSeries(ResSetup."Resource Nos.", xRec."No. Series", 0D, "No.", "No. Series", IsHandled);
+            NoSeriesMgt.RaiseObsoleteOnBeforeInitSeries(ResSetup."Course Nos.", xRec."No. Series", 0D, "No.", "No. Series", IsHandled);
             if not IsHandled then begin
 #endif
-                "No. Series" := ResSetup."Resource Nos.";
+                "No. Series" := ResSetup."Course Nos.";
                 if NoSeries.AreRelated("No. Series", xRec."No. Series") then
                     "No. Series" := xRec."No. Series";
                 "No." := NoSeries.GetNextNo("No. Series");
-                Resource.ReadIsolation(IsolationLevel::ReadUncommitted);
-                Resource.SetLoadFields("No.");
-                while Resource.Get("No.") do
+                Course.ReadIsolation(IsolationLevel::ReadUncommitted);
+                Course.SetLoadFields("No.");
+                while Course.Get("No.") do
                     "No." := NoSeries.GetNextNo("No. Series");
 #if not CLEAN24
-                NoSeriesMgt.RaiseObsoleteOnAfterInitSeries("No. Series", ResSetup."Resource Nos.", 0D, "No.");
+                NoSeriesMgt.RaiseObsoleteOnAfterInitSeries("No. Series", ResSetup."Course Nos.", 0D, "No.");
             end;
 #endif
         end;
@@ -114,46 +110,31 @@ table 50100 Course
 
         Res := Rec;
         ResSetup.Get();
-        ResSetup.TestField("Resource Nos.");
-        if NoSeries.LookupRelatedNoSeries(ResSetup."Resource Nos.", OldRes."No. Series", Res."No. Series") then begin
+        ResSetup.TestField("Course Nos.");
+        if NoSeries.LookupRelatedNoSeries(ResSetup."Course Nos.", OldRes."No. Series", Res."No. Series") then begin
             Res."No." := NoSeries.GetNextNo(Res."No. Series");
             Rec := Res;
             exit(true);
         end;
     end;
 
-    local procedure AsPriceAsset(var PriceAsset: Record "Price Asset"; PriceType: Enum "Price Type")
-    begin
-        PriceAsset.Init();
-        PriceAsset."Price Type" := PriceType;
-        PriceAsset."Asset Type" := PriceAsset."Asset Type"::Resource;
-        PriceAsset."Asset No." := "No.";
-    end;
-
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeOnInsert(var Resource: Record Course; var IsHandled: Boolean; var xResource: Record Course)
-    begin
-    end;
-
-
-
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeValidateNo(var Resource: Record Course; xResource: Record Course; var IsHandled: Boolean)
+    local procedure OnBeforeValidateNo(var Course: Record Course; xCourse: Record Course; var IsHandled: Boolean)
     begin
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeAssistEdit(var Resource: Record Course; xOldRes: Record Course; var IsHandled: Boolean; var Result: Boolean)
+    local procedure OnBeforeOnInsert(var Course: Record Course; var IsHandled: Boolean; var xCourse: Record Course)
     begin
     end;
 
-
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeAssistEdit(var Course: Record Course; xOldRes: Record Course; var IsHandled: Boolean; var Result: Boolean)
+    begin
+    end;
 
     var
         NoSeries: Codeunit "No. Series";
-        ResSetup: Record "Resources Setup";
+        ResSetup: Record "Courses Setup";
         Res: Record Course;
-
-
-
 }
