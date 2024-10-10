@@ -41,6 +41,7 @@ page 50100 "Course List"
                 CaptionML = ENU = 'Editions', ESP = 'Ediciones';
                 RunObject = page "Course Editions"; //Sirve para ejecutar un objeto entero.
                 RunPageLink = "Course No." = field("No.");
+                Image = ListPage;
             }
         }
     }
