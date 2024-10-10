@@ -26,9 +26,21 @@ page 50100 "Course List"
         }
         area(FactBoxes)
         {
-            part(CourseEditions; "Course Editions")
+            part(CourseEditions; "Course Editions FactBox")
             {
                 SubPageLink = "Course No." = field("No."); //Cojo un campo de la tabla de ediciones y lo relaciono con la tabla de cursos.
+            }
+        }
+    }
+    actions
+    {
+        area(Navigation)
+        {
+            action(Editions)
+            {
+                CaptionML = ENU = 'Editions', ESP = 'Ediciones';
+                RunObject = page "Course Editions"; //Sirve para ejecutar un objeto entero.
+                RunPageLink = "Course No." = field("No.");
             }
         }
     }
