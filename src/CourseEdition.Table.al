@@ -1,6 +1,8 @@
 table 50102 "Course Edition"
 {
     CaptionML = ENU = 'Course Edition', ESP = 'Edición curso';
+    DataClassification = CustomerContent;
+
     fields
     {
         field(1; "Course No."; Code[20])  //Code20 porque tiene relación con la tabla Course y no quiero que el usuario pueda introducir cualquier cosa. 
