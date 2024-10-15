@@ -1,6 +1,6 @@
 page 50103 "Course Editions FactBox"
 {
-    CaptionML = ENU = 'Course Editions', ESP = 'Ediciones curso';
+    Caption = 'Course Editions', Comment = 'ESP="Ediciones curso"';
     PageType = ListPart; //Tiene que ser una ListPart para poder usarla en la parte de factboxes
     ApplicationArea = All;
     UsageCategory = Lists;

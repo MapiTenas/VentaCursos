@@ -1,6 +1,6 @@
 permissionset 50100 "Course - SUPER"
 {
-    CaptionML = ENU = 'User permission', ESP = 'Permisos usuarios';
+    Caption = 'User permission', Comment = 'ESP="Permisos usuarios"';
     Assignable = true;
     // IncludedPermissionSets = SomePermissionSet; //Puedo asignar algun otro set de permisos a este set. 
     Permissions = tabledata Course = RIMD,

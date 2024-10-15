@@ -1,7 +1,7 @@
 page 50100 "Course List"
 {
     //Propiedades globales
-    CaptionML = ENU = 'Courses', ESP = 'Cursos';
+    Caption = 'Courses', Comment = 'ESP="Cursos"';
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
@@ -38,7 +38,7 @@ page 50100 "Course List"
         {
             action(Editions)
             {
-                CaptionML = ENU = 'Editions', ESP = 'Ediciones';
+                Caption = 'Editions', Comment = 'ESP="Ediciones"';
                 RunObject = page "Course Editions"; //Sirve para ejecutar un objeto entero.
                 RunPageLink = "Course No." = field("No.");
                 Image = ListPage;
