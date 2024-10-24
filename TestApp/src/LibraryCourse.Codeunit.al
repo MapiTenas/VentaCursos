@@ -19,6 +19,20 @@ codeunit 50153 "Library - Course"
         Course.Modify(true);
     end;
 
+    procedure CreateEdition(No: Code[20]) CourseEdition: Record "Course Edition"
+    var
+        LibraryRandom: Codeunit "Library - Random";
+    begin
+        LibraryRandom.Init();
+
+        CourseEdition.Init();
+        CourseEdition.Validate("Course No.", No);
+        CourseEdition.Validate(Edition, LibraryRandom.RandText(MaxStrLen(CourseEdition.Edition)));
+        CourseEdition.Validate("Max. Students", LibraryRandom.RandIntInRange(10, 20));
+        CourseEdition.Validate("Start Date", LibraryRandom.RandDateFrom(Today(), 10));
+        CourseEdition.Insert(true);
+    end;
+
     local procedure CourseNoSeriesSetup()
     var
         CoursesSetup: Record "Courses Setup";
